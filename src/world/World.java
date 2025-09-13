@@ -7,13 +7,13 @@ import monster.woods.Slime;
 
 import java.util.Random;
 
-public class Woods {
+public class World {
     private int[][] map;
     private int mobSpawnChance;
     private int[] exitPoint;
     private int[] dropPoint;
     private int[] characterPosition;
-    private final Class<? extends Monster>[] spawnTable = new Class[]{Goblin.class, Slime.class};
+    private final Class<? extends Monster>[] spawnTable;
     private Random rnd;
     private int stackExp;
     private boolean exitFlag = false;
@@ -30,7 +30,8 @@ public class Woods {
         return dropPoint;
     }
 
-    public Woods(int x, int y, int mobSpawnChance) {
+    public World(int x, int y, int mobSpawnChance, Class<? extends Monster>[] spawnTable) {
+        this.spawnTable = spawnTable;
         map = new int[x][y];
         this.mobSpawnChance = mobSpawnChance;
         this.exitPoint = new int[2];

@@ -1,10 +1,14 @@
 package lobby;
 
+import monster.shoreline.Spider;
+import monster.shoreline.Zombie;
+import monster.woods.Goblin;
+import monster.woods.Slime;
 import myUtil.MyProcessBuilder;
 import myUtil.MyScanner;
 import myUtil.MyTypeChecker;
 import typePackage.MapType;
-import world.Woods;
+import world.World;
 
 import java.util.Scanner;
 
@@ -15,7 +19,10 @@ public class Map {
         sc = MyScanner.getInstance();
         switch (mt) {
             case WOODS:
-                woodsLoading();
+                worldLoading(new World(100, 100, 15, new Class[]{Slime.class, Goblin.class}));
+                break;
+            case SHORELINE:
+                worldLoading(new World(125, 125, 20, new Class[]{Spider.class, Zombie.class}));
                 break;
             default:
                 Lobby lobby = new Lobby();
@@ -24,30 +31,34 @@ public class Map {
         }
     }
 
-    public void woodsLoading(){
+    public void worldLoading(World world){
         MyProcessBuilder.clearLine();
-        Woods woods = new Woods(100, 100, 15);
-        int[] dropPoint = woods.getDropPoint();
+        int[] dropPoint = world.getDropPoint();
         System.out.printf("현재 드랍 포인트는 x : %d, y : %d 입니다.\n", dropPoint[0], dropPoint[1]);
         while (true) {
             String s = sc.nextLine();
             if (MyTypeChecker.checkString(s)) {
                 switch (s) {
                     case "w":
-                        woods.workN();
+                        world.workN();
                         break;
                     case "a":
-                        woods.workW();
+                        world.workW();
                         break;
                     case "s":
-                        woods.workS();
+                        world.workS();
                         break;
                     case "d":
-                        woods.workE();
+                        world.workE();
                         break;
                     }
             }
-            if (woods.isExitFlag()) {
+            if (world.isExitFlag()) {
+                System.out.println("맵을 탈출하여 로비로 돌아갑니다.");
+                break;
+            }
+            if (!Lobby.stUserProfile.getSelectedCharacter().isAlive()) {
+                System.out.println("캐릭터가 사망하여 로비로 돌아갑니다.");
                 break;
             }
         }

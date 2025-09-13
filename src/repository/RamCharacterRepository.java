@@ -2,6 +2,8 @@ package repository;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import lobby.Lobby;
 import player.Character;
 
 public class RamCharacterRepository {
@@ -38,6 +40,19 @@ public class RamCharacterRepository {
 
     public Character[] getCharacters(String userId) {
         return characterMap.get(userId);
+    }
+
+    public void saveCharacter(String userId) {
+        Character[] characters = characterMap.get(userId);
+        if (characters != null) {
+            for (int i = 0; i < characters.length; i++) {
+                Character selectedCharacter = Lobby.stUserProfile.getSelectedCharacter();
+                if (characters[i].getCharacterName().equals(selectedCharacter.getCharacterName())) {
+                    characters[i] = selectedCharacter;
+                    break;
+                }
+            }
+        }
     }
 
 }

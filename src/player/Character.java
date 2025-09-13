@@ -1,11 +1,17 @@
 package player;
 
+import skill.Skill;
+import skill.attack.PowerStrike;
+import skill.buff.Bless;
+
 public class Character {
     private String userId;
     private String characterName;
     private int hp;
     private int mp;
     private boolean isAlive = true;
+
+    private Skill[] haveSkills;
 
     public int getExp() {
         return exp;
@@ -23,7 +29,6 @@ public class Character {
         isAlive = alive;
     }
 
-    private int[] haveSkills;
 
     private int atk;
     private int def;
@@ -39,13 +44,31 @@ public class Character {
         this.characterName = characterName;
         hp = 100;
         mp = 10;
-        haveSkills = new int[10];
+        haveSkills = new Skill[2];
+        haveSkills[0] = new PowerStrike();
+        haveSkills[1] = new Bless();
         str = 4;
         dex = 5;
         atk = str * 4;
         dodgeChance = (double) dex * 0.025;
         def = 5;
         exp = 0;
+    }
+
+    public void setAtk() {
+        this.atk = str * 4;
+    }
+
+    public void setStr(int str) {
+        this.str = str;
+    }
+
+    public void setMp(int mp) {
+        this.mp = mp;
+    }
+
+    public Skill[] getHaveSkills() {
+        return haveSkills;
     }
 
     public String getCharacterName(){
